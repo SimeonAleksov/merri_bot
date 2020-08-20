@@ -1,0 +1,12 @@
+discord
+aiohttp==1.0.5
+APScheduler==3.6.3
+async-timeout==3.0.1
+chardet==3.0.4
+discord.py==0.16.12
+emoji==0.6.0
+multidict==3.3.2
+pytz==2018.3
+six==1.11.0
+tzlocal==2.1
+websockets==8.1
