@@ -48,6 +48,15 @@ def main():
     async def on_message_edit(before, after):
         await common_handle_message(after)
 
+    @client.event
+    async def on_member_join(member):
+        channel = client.get_channel(747429604528095323)
+        rules_channel = client.get_channel(747431013281562705)
+        role = discord.utils.get(member.guild.roles, name='NooPy')
+        await member.add_roles(role)
+        msg = f"Welcome {member.mention}, please check the {rules_channel.mention}."
+
+        await channel.send(msg)
     client.run(settings.BOT_TOKEN)
 
 
