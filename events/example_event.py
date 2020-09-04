@@ -9,7 +9,6 @@ class ExampleEvent(BaseEvent):
         interval_minutes = 60
         super().__init__(interval_minutes)
 
-
     async def run(self, client):
         now = datetime.now()
 

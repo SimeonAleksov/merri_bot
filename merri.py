@@ -2,9 +2,9 @@ import sys
 import settings
 import discord
 import message_handler
-
+from events import *
+from events.base_event import BaseEvent
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-
 
 this = sys.modules[__name__]
 this.running = False
@@ -28,6 +28,16 @@ def main():
             activity = discord.Game(name=f"{settings.NOW_PLAYING}")
             await client.change_presence(status=discord.Status.idle, activity=activity)
         print("Logged in!", flush=True)
+        # Load all events
+        print("Loading events...", flush=True)
+        n_ev = 0
+        for ev in BaseEvent.__subclasses__():
+            event = ev()
+            sched.add_job(event.run, 'interval', (client,),
+                          minutes=event.interval_minutes)
+            n_ev += 1
+        sched.start()
+        print(f"{n_ev} events loaded", flush=True)
 
     async def common_handle_message(message):
         text = message.content
@@ -57,6 +67,7 @@ def main():
         msg = f"Welcome {member.mention}, please check the {rules_channel.mention}."
 
         await channel.send(msg)
+
     client.run(settings.BOT_TOKEN)
 
 
